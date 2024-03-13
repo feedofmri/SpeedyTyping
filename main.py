@@ -8,6 +8,11 @@ def power_on(stdscr):
     stdscr.refresh()
     stdscr.getkey()
     
+def typing_screen(stdscr, qn, user, wpm = 0):
+    stdscr.addstr("Type the following: ")
+    stdscr.
+    
+    
 def typing_screen(stdscr):
     qn_text = "The quick brown fox jumps over the lazy dog."
     user_text = []
