@@ -1,5 +1,5 @@
 import curses
-form curses import wrapper
+from curses import wrapper
 
 def main(stdscr):
     stdscr.clear()
