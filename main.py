@@ -26,17 +26,21 @@ def typing_screen(stdscr):
     qn_text = "The quick brown fox jumps over the lazy dog."
     user_text = []
 
+    stdscr.nodelay(True)
     start_time = time.time()
     wpm = 0
     while True:
         
         elapsed_time = max(time.time() - start_time, 1)
-        wpm = len(user_text) / 5 / (elapsed_time / 60)
+        wpm = round(len(user_text) / 5 / (elapsed_time / 60))
         
         stdscr.clear()
         display_screen(stdscr, qn_text, user_text, wpm)
 
-        key = stdscr.getkey()
+        try:
+            key = stdscr.getkey()
+        except:
+            continue
 
         if key == "\n":
             break
