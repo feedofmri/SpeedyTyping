@@ -1,6 +1,7 @@
 import curses
 from curses import wrapper
 import curses
+import time
 
 def power_on(stdscr):
     stdscr.clear()
@@ -10,22 +11,30 @@ def power_on(stdscr):
     stdscr.getkey()
     
 def display_screen(stdscr, qn, user, wpm = 0):
-    stdscr.addstr("Type the following: \n")
+    stdscr.addstr("Type the following: \n\n")
     stdscr.addstr(qn, curses.color_pair(3))
+    stdscr.addstr(4, 0, f"WPM: {wpm}")
+    
     for i, char in enumerate(user):
         if char == qn[i]:
-            stdscr.addstr(1, i, char, curses.color_pair(2))
+            stdscr.addstr(2, i, char, curses.color_pair(2))
         else:
-            stdscr.addstr(1, i, char, curses.color_pair(1))
+            stdscr.addstr(2, i, char, curses.color_pair(1))
     
     
 def typing_screen(stdscr):
     qn_text = "The quick brown fox jumps over the lazy dog."
     user_text = []
 
+    start_time = time.time()
+    wpm = 0
     while True:
+        
+        elapsed_time = max(time.time() - start_time, 1)
+        wpm = len(user_text) / 5 / (elapsed_time / 60)
+        
         stdscr.clear()
-        display_screen(stdscr, qn_text, user_text)
+        display_screen(stdscr, qn_text, user_text, wpm)
 
         key = stdscr.getkey()
 
@@ -34,7 +43,7 @@ def typing_screen(stdscr):
         elif key in ("BACKSPACE", "\b", "\x7f"):
             if user_text:
                 user_text.pop()
-        else:
+        elif len(user_text) < len(qn_text):
             user_text.append(key)
             
 
